@@ -43,16 +43,16 @@ public class RegistrationTestsOkhttp {
                 .build();
         RequestBody body = RequestBody.create(gson.toJson(auth), JSON);
         Request request = new Request.Builder()
-                .url("https://contactapp-telran-backend.herokuapp.com/v1/user/login/usernamepassword")
+                .url("https://contactapp-telran-backend.herokuapp.com/v1/user/registration/usernamepassword")
                 .post(body)
                 .build();
         Response response = client.newCall(request).execute();
         Assert.assertFalse(response.isSuccessful());
-        Assert.assertEquals(response.code(), 401);
+        Assert.assertEquals(response.code(), 400);
         ErrorDto errorDto = gson.fromJson(response.body().string(),dto.ErrorDto.class);
-        Assert.assertEquals(errorDto.getStatus(),401);
-        Assert.assertEquals(errorDto.getMessage(),"Login or Password incorrect");
-        Assert.assertEquals(errorDto.getPath(),"/v1/user/login/usernamepassword");
+        Assert.assertEquals(errorDto.getStatus(),400);
+        Assert.assertEquals(errorDto.getMessage(),"{username=must be a well-formed email address}");
+        Assert.assertEquals(errorDto.getPath(),"/v1/user/registration/usernamepassword");
 
 
     }
@@ -64,16 +64,16 @@ public class RegistrationTestsOkhttp {
                 .build();
         RequestBody body = RequestBody.create(gson.toJson(auth), JSON);
         Request request = new Request.Builder()
-                .url("https://contactapp-telran-backend.herokuapp.com/v1/user/login/usernamepassword")
+                .url("https://contactapp-telran-backend.herokuapp.com/v1/user/registration/usernamepassword")
                 .post(body)
                 .build();
         Response response = client.newCall(request).execute();
         Assert.assertFalse(response.isSuccessful());
-        Assert.assertEquals(response.code(), 401);
+        Assert.assertEquals(response.code(), 400);
         ErrorDto errorDto = gson.fromJson(response.body().string(),dto.ErrorDto.class);
-        Assert.assertEquals(errorDto.getStatus(),401);
-        Assert.assertEquals(errorDto.getMessage(),"Login or Password incorrect");
-        Assert.assertEquals(errorDto.getPath(),"/v1/user/login/usernamepassword");
+        Assert.assertEquals(errorDto.getStatus(),400);
+        Assert.assertEquals(errorDto.getMessage(),"{password= At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]}");
+        Assert.assertEquals(errorDto.getPath(),"/v1/user/registration/usernamepassword");
 
 
     }
@@ -81,20 +81,20 @@ public class RegistrationTestsOkhttp {
     public void registrationDuplicateUser() throws IOException {
         AuthRequestDto auth = AuthRequestDto.builder()
                 .username("sonicboom@gmail.com")
-                .password("Snow123456")
+                .password("Snow123456!")
                 .build();
         RequestBody body = RequestBody.create(gson.toJson(auth), JSON);
         Request request = new Request.Builder()
-                .url("https://contactapp-telran-backend.herokuapp.com/v1/user/login/usernamepassword")
+                .url("https://contactapp-telran-backend.herokuapp.com/v1/user/registration/usernamepassword")
                 .post(body)
                 .build();
         Response response = client.newCall(request).execute();
         Assert.assertFalse(response.isSuccessful());
-        Assert.assertEquals(response.code(), 401);
+        Assert.assertEquals(response.code(), 409);
         ErrorDto errorDto = gson.fromJson(response.body().string(),dto.ErrorDto.class);
-        Assert.assertEquals(errorDto.getStatus(),401);
-        Assert.assertEquals(errorDto.getMessage(),"Login or Password incorrect");
-        Assert.assertEquals(errorDto.getPath(),"/v1/user/login/usernamepassword");
+        Assert.assertEquals(errorDto.getStatus(),409);
+        Assert.assertEquals(errorDto.getMessage(),"User already exists");
+        Assert.assertEquals(errorDto.getPath(),"/v1/user/registration/usernamepassword");
 
 
     }
