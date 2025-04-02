@@ -19,8 +19,8 @@ public class LoginTestsOkhttp {
     @Test
     public void loginSuccess() throws IOException {
         AuthRequestDto auth = AuthRequestDto.builder()
-                .username("mara@gmail.com")
-                .password("Mmar123456$")
+                .username("sonicboom@gmail.com")
+                .password("Snow123456!")
                 .build();
         RequestBody body = RequestBody.create(gson.toJson(auth), JSON);
         Request request = new Request.Builder()
@@ -38,8 +38,8 @@ public class LoginTestsOkhttp {
     @Test
     public void loginWrongEmail() throws IOException {
         AuthRequestDto auth = AuthRequestDto.builder()
-                .username("maragmail.com")
-                .password("Mmar123456$")
+                .username("sonicboomgmail.com")
+                .password("Snow123456!")
                 .build();
         RequestBody body = RequestBody.create(gson.toJson(auth), JSON);
         Request request = new Request.Builder()
@@ -60,8 +60,8 @@ public class LoginTestsOkhttp {
     @Test
     public void loginWrongPassword() throws IOException {
         AuthRequestDto auth = AuthRequestDto.builder()
-                .username("mara@gmail.com")
-                .password("Mmar123")
+                .username("sonicboom@gmail.com")
+                .password("Snow123456")
                 .build();
         RequestBody body = RequestBody.create(gson.toJson(auth), JSON);
         Request request = new Request.Builder()
@@ -81,8 +81,8 @@ public class LoginTestsOkhttp {
     @Test
     public void loginUnregisteredUser() throws IOException {
         AuthRequestDto auth = AuthRequestDto.builder()
-                .username("mara123@gmail.com")
-                .password("Mmar123456$")
+                .username("sonicboom1232313@gmail.com")
+                .password("Snow123456!")
                 .build();
         RequestBody body = RequestBody.create(gson.toJson(auth), JSON);
         Request request = new Request.Builder()
