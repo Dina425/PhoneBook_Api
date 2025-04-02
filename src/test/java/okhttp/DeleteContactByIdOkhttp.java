@@ -1,6 +1,7 @@
 package okhttp;
 
 import com.google.gson.Gson;
+import dto.ContactDto;
 import dto.ErrorDto;
 import dto.MessageDto;
 import okhttp3.OkHttpClient;
@@ -13,18 +14,43 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
+import static okhttp.LoginTestsOkhttp.JSON;
+
 public class DeleteContactByIdOkhttp {
 
-    String token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoibWFyYUBnbWFpbC5jb20iLCJpc3MiOiJSZWd1bGFpdCIsImV4cCI6MTc0Mzk1MzYwNywiaWF0IjoxNzQzMzUzNjA3fQ.U5wGB2rQekt-LTEGSijdW6PDexDuK-D135pcwUh0buE";
+    String token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoic29uaWNib29tQGdtYWlsLmNvbSIsImlzcyI6IlJlZ3VsYWl0IiwiZXhwIjoxNzQ0MTg2MjY3LCJpYXQiOjE3NDM1ODYyNjd9.kcf_--M7p-FokUYw9pKHOMtrKG6HQAFwMZ4VawaOVi0";
     Gson gson = new Gson();
     OkHttpClient client = new OkHttpClient();
     String id;
 
     @BeforeMethod
-    public void preCondition(){
+    public void preCondition() throws IOException {
         //create contact //
         //get id from message:"message": "Contact was added! ID: a4a33d33-b00e-4049-8570-dfd07aace9c7"
         //id = ""
+        ContactDto contactDto= ContactDto.builder()
+                .name("Strong")
+                .lastName("Mark")
+                .email("Sm@gmail.com")
+                .phone("123456789122")
+                .address("Haifa")
+                .build();
+        RequestBody body = RequestBody.create(gson.toJson(contactDto), JSON);
+
+        Request request = new Request.Builder()
+                .url("https://contactapp-telran-backend.herokuapp.com/v1/contacts/")
+                .post(body)
+                .addHeader("Authorization", token)
+                .build();
+        Response response = client.newCall(request).execute();
+        Assert.assertTrue(response.isSuccessful());
+        MessageDto messageDto = gson.fromJson(response.body().string(), MessageDto.class);
+        //System.out.println(messageDto.getMessage());
+        String[] messageDtoM=messageDto.getMessage().toString().split(": ");
+
+        id=messageDtoM[1];
+        //System.out.println("id="+id);
+
     }
 
     @Test
@@ -75,22 +101,10 @@ public class DeleteContactByIdOkhttp {
         Assert.assertEquals(errorDto.getMessage(),"Contact with id: 18bf1a49 not found in your contacts!");
     }
 }
+//3dc754e5-69c3-427a-b666-4240ba0b087c
+//asdas@gmail.com
+//================================
+//        0325278f-29db-4b19-839b-4cada7391839
+//asdas1@gmail.com
+//================================
 
-//88550343-cada-4411-9a3b-a801abae319b
-//wow1603@gmail.com
-//================================
-//a8cb6927-d2c8-4d02-950e-3e0bd3465e70
-//wow1351@gmail.com
-//================================
-//a45edde1-ddab-49df-8167-7a5125c4d201
-//wow1160@gmail.com
-//================================
-//        18bf1a49-d80d-4961-9fc3-792b3b0971c8
-//tanya@maol.com
-//================================
-//ea91ad86-f9a7-4416-9591-bb432733bb03
-//vera@vera.ru
-//================================
-//        6fbbc54d-8158-49de-843c-fa70e9230e0b
-//olsana@com.com
-//================================
