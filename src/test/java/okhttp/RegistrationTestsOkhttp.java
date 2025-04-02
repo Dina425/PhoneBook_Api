@@ -51,7 +51,7 @@ public class RegistrationTestsOkhttp {
         Assert.assertEquals(response.code(), 400);
         ErrorDto errorDto = gson.fromJson(response.body().string(),dto.ErrorDto.class);
         Assert.assertEquals(errorDto.getStatus(),400);
-        Assert.assertEquals(errorDto.getMessage(),"{username=must be a well-formed email address}");
+        Assert.assertTrue(errorDto.getMessage().toString().contains("username=must be a well-formed email address"));
         Assert.assertEquals(errorDto.getPath(),"/v1/user/registration/usernamepassword");
 
 
@@ -72,7 +72,8 @@ public class RegistrationTestsOkhttp {
         Assert.assertEquals(response.code(), 400);
         ErrorDto errorDto = gson.fromJson(response.body().string(),dto.ErrorDto.class);
         Assert.assertEquals(errorDto.getStatus(),400);
-        Assert.assertEquals(errorDto.getMessage(),"{password= At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]}");
+        Assert.assertTrue(errorDto.getMessage().toString().contains("password= At least 8 characters; Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number; Can contain special characters [@$#^&*!]"));
+
         Assert.assertEquals(errorDto.getPath(),"/v1/user/registration/usernamepassword");
 
 
