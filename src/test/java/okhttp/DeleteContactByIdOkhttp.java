@@ -25,9 +25,7 @@ public class DeleteContactByIdOkhttp {
 
     @BeforeMethod
     public void preCondition() throws IOException {
-        //create contact //
-        //get id from message:"message": "Contact was added! ID: a4a33d33-b00e-4049-8570-dfd07aace9c7"
-        //id = ""
+
         ContactDto contactDto= ContactDto.builder()
                 .name("Strong")
                 .lastName("Mark")

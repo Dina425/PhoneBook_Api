@@ -14,7 +14,7 @@ import java.util.Random;
 public class RegistrationTestsOkhttp {
     Gson gson = new Gson();
     public static final MediaType JSON = MediaType.get("application/json;charset=utf-8");
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client = new OkHttpClient();//send btn
 
     @Test
     public void registrationSuccess() throws IOException {
